@@ -2,6 +2,7 @@ import {
     signInWithGooglePopup,
     createUserDocumentFromAuth
 } from '../../utils/firebase/firebase.js';
+import SignUpForm from '../sign-up-form/signupform.js';
 
 const Signin = () => {
     const logGoogleUser = async () => {
@@ -13,6 +14,7 @@ const Signin = () => {
         <>
             <h1>Sign in page</h1>
             <button onClick={logGoogleUser}>SignIn with Google</button>
+            <SignUpForm />
         </>
     );
 };
