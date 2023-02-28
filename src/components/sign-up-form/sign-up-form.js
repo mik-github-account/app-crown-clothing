@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/user-context.js";
 import {
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth
@@ -19,16 +20,14 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
 
-    const form = document.getElementById('sign-up-form')
+    const { setCurrentUser } = useContext(UserContext);
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
-        form.reset();
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(event)
 
         if (password !== confirmPassword) {
             alert('the passwords do not match')
@@ -45,6 +44,9 @@ const SignUpForm = () => {
                 email,
                 password
             );
+
+            setCurrentUser(user);
+
             await createUserDocumentFromAuth(user, { displayName });
             resetFormFields(defaultFormFields);
         } catch (error) {
@@ -60,8 +62,6 @@ const SignUpForm = () => {
         const { name, value } = event.target;
         setFormFields({ ...formFields, [name]: value });
     }
-
-    console.log(formFields)
 
     return (
         <div className="sign-up-container">

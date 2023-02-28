@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Button from '../button/button.js'
 import FormInput from '../form-input/form-input.js'
 import './sign-in-form.scss'
 import {
     signInWithGooglePopup,
     createUserDocumentFromAuth,
-    signInAuthUserWithEmailAndPassword,
-    auth
+    signInAuthUserWithEmailAndPassword
 } from '../../utils/firebase/firebase.js';
+import { UserContext } from "../../contexts/user-context.js";
 
 const defaultFormFields = {
     email: '',
@@ -19,15 +19,25 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
-    // const resetFormFields = setFormFields(defaultFormFields);
+    const resetFormFields = () => {
+        setFormFields(defaultFormFields);
+    };
+
+    const { setCurrentUser } = useContext(UserContext);
+
+    const signInWithGoogle = async () => {
+        const { user } = await signInWithGooglePopup();
+        await createUserDocumentFromAuth(user)
+        setCurrentUser(user)
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(email, password);
-            console.log(response)
-            // resetFormFields();
+            const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+            setCurrentUser(user);
+            resetFormFields();
         } catch (error) {
             switch (error.code) {
                 case 'auth/wrong-password':
@@ -42,11 +52,6 @@ const SignInForm = () => {
         }
     }
 
-    const signInWithGoogle = async () => {
-        const response = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(response.user)
-    };
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormFields({ ...formFields, [name]: value });
@@ -56,6 +61,7 @@ const SignInForm = () => {
         <div className="sign-in-container">
             <h2>Already have an account?</h2>
             <span>Sign in with email and password</span>
+            {/* <button type="button" onClick={test()}>Click</button> */}
             <form onSubmit={(event) => { handleSubmit(event); }}>
 
                 <FormInput
