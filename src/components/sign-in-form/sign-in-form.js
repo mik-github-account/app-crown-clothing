@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import Button from '../button/button.js'
+import Button, { BUTTON_TYPE_CLASSES } from '../button/button.jsx'
 import FormInput from '../form-input/form-input.js'
 import './sign-in-form.scss'
 import {
@@ -83,7 +83,7 @@ const SignInForm = () => {
                 />
                 <div className="buttons-container">
                     <Button type="submit">Sign In</Button>
-                    <Button type="button" buttonType="google" onClick={signInWithGoogle}>Google Sign In</Button>
+                    <Button buttonType={BUTTON_TYPE_CLASSES.google} type='button' onClick={signInWithGoogle}>Google Sign In</Button>
                 </div>
             </form>
         </div>

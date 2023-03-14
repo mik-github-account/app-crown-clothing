@@ -4,7 +4,7 @@ import {
     createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth
 } from '../../utils/firebase/firebase.js';
-import Button from "../button/button.js";
+import Button from '../button/button.jsx';
 import FormInput from '../form-input/form-input.js'
 import './sign-up-form.scss'
 
