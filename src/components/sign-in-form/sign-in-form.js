@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.jsx'
-import FormInput from '../form-input/form-input.js'
+import FormInput from '../form-input/form-input.jsx'
 import './sign-in-form.scss'
 import {
     signInWithGooglePopup,
